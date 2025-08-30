@@ -3,17 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>69 Football Tips</title>
+  <title>69 Football Tips - Predictions</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img src="file_00000000c66461f5902960212e8f5fbf.png" alt="Football Banner" class="banner">
+    <h1>⚽ 69 Football Tips</h1>
+    <p>Upcoming Football Predictions</p>
   </header>
 
   <main>
-    <h1 class="neon">Welcome to 69Football.Tips</h1>
-    <p>Get the best upcoming football predictions with us!</p>
+    <section id="matches">
+      <h2>Today's Matches</h2>
+
+      <div class="match">
+        <h3>Barcelona vs Real Madrid</h3>
+        <button onclick="predict('Barcelona vs Real Madrid', 'barca')">Get Prediction</button>
+        <p id="barca"></p>
+      </div>
+
+      <div class="match">
+        <h3>Manchester United vs Chelsea</h3>
+        <button onclick="predict('Man Utd vs Chelsea', 'manutd')">Get Prediction</button>
+        <p id="manutd"></p>
+      </div>
+
+      <div class="match">
+        <h3>Liverpool vs Arsenal</h3>
+        <button onclick="predict('Liverpool vs Arsenal', 'liverpool')">Get Prediction</button>
+        <p id="liverpool"></p>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <p>© 2025 69-Football.Tips | Built on GitHub Pages</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
