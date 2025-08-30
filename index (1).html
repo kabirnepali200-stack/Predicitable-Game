@@ -41,6 +41,40 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+  const apiKey = "0827e35cf4mshe75681ee2d53291p1085aajsne94482be648f"; // ✅ your key
+  const url = "https://api-football-v1.p.rapidapi.com/v3/fixtures?live=all";
+
+  fetch(url, {
+    method: "GET",
+    headers: {
+      "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+      "x-rapidapi-key": apiKey
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    const matchSection = document.querySelector(".match");
+    if (data.response && data.response.length > 0) {
+      const fixture = data.response[0]; 
+      matchSection.innerHTML = `
+        <h2>🔥 Live Match</h2>
+        <div class="match-card">
+          <img src="${fixture.teams.home.logo}" class="team-logo">
+          <span>vs</span>
+          <img src="${fixture.teams.away.logo}" class="team-logo">
+        </div>
+        <p><strong>${fixture.teams.home.name}</strong> vs <strong>${fixture.teams.away.name}</strong></p>
+        <p><strong>Score:</strong> ${fixture.goals.home} - ${fixture.goals.away}</p>
+        <p><strong>Status:</strong> ${fixture.fixture.status.long}</p>
+      `;
+    } else {
+      matchSection.innerHTML = "<p>No live matches right now.</p>";
+    }
+  })
+  .catch(error => console.error(error));
+</script>
+
 </body>
 </html>
 
