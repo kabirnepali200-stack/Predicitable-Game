@@ -1,3 +1,4 @@
+"X-RapidAPI-Key": "0827e35cf4mshe75681ee2d53291p1085aasjne94482be648f",
 async function getPrediction(fixtureId, divId) {
   const url = `https://api-football-v1.p.rapidapi.com/v3/predictions?fixture=${fixtureId}`;
   const options = {
