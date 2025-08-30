@@ -1,1 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Football Predictions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #222;
+    }
+    .match {
+      background: white;
+      margin: 15px auto;
+      padding: 15px;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0px 3px 6px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      margin-top: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #predictionBox {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <h1>Today's Football Predictions</h1>
+
+  <div id="matches">Loading matches...</div>
+  <div id="predictionBox"></div>
+
+  <script>
+    // ✅ Replace with your own API Key
+    const API_KEY = "YOUR_API_KEY";
+
+    async function getPrediction(fixtureId) {
+      const url = `https://api-football-v1.p.rapidapi.com/v3/predictions?fixture=${fixtureId}`;
+      const options = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key": API_KEY,
+          "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+        }
+      };
+
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+
+        const prediction = data.response[0]?.predictions?.winner?.name || "No prediction available";
+        document.getElementById("predictionBox").innerText = "Predicted Winner: " + prediction;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function loadMatches() {
+      const url = 'https://api-football-v1.p.rapidapi.com/v3/fixtures?date=2025-08-30&league=39&season=2025';
+      const options = {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key": API_KEY,
+          "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+        }
+      };
+
+      try {
+        const res = await fetch(url, options);
+        const data = await res.json();
+
+        const container = document.getElementById("matches");
+        container.innerHTML = "";
+
+        data.response.forEach(match => {
+          const fixtureId = match.fixture.id;
+          const teams = match.teams.home.name + " vs " + match.teams.away.name;
+
+          container.innerHTML += `
+            <div class="match">
+              <p><strong>${teams}</strong></p>
+              <button onclick="getPrediction(${fixtureId})">Get Prediction</button>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Load matches when page opens
+    loadMatches();
+  </script>
+</body>
+</html>
 
