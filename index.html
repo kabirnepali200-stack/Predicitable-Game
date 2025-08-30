@@ -1,48 +1,34 @@
-<div id="predictionBox">Prediction will appear here...</div>
-<button onclick="getPrediction(198772, 'predictionBox')">Get Prediction</button>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>69 Football Tips - Predictions</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <h1>⚽ 69 Football Tips</h1>
-    <p>Upcoming Football Predictions</p>
-  </header>
+<div id="matches"></div>
 
-  <main>
-    <section id="matches">
-      <h2>Today's Matches</h2>
+<script>
+async function loadMatches() {
+  const url = 'https://api-football-v1.p.rapidapi.com/v3/fixtures?date=2025-08-30&league=39&season=2025';
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "YOUR_API_KEY",  
+      "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+    }
+  };
 
-      <div class="match">
-        <h3>Barcelona vs Real Madrid</h3>
-        <button onclick="predict('Barcelona vs Real Madrid', 'barca')">Get Prediction</button>
-        <p id="barca"></p>
+  const res = await fetch(url, options);
+  const data = await res.json();
+
+  const container = document.getElementById("matches");
+  container.innerHTML = "";
+
+  data.response.forEach(match => {
+    const fixtureId = match.fixture.id;
+    const teams = match.teams.home.name + " vs " + match.teams.away.name;
+
+    container.innerHTML += `
+      <div>
+        <p>${teams}</p>
+        <button onclick="getPrediction(${fixtureId}, 'predictionBox')">Get Prediction</button>
       </div>
+    `;
+  });
+}
 
-      <div class="match">
-        <h3>Manchester United vs Chelsea</h3>
-        <button onclick="predict('Man Utd vs Chelsea', 'manutd')">Get Prediction</button>
-        <p id="manutd"></p>
-      </div>
-
-      <div class="match">
-        <h3>Liverpool vs Arsenal</h3>
-        <button onclick="predict('Liverpool vs Arsenal', 'liverpool')">Get Prediction</button>
-        <p id="liverpool"></p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 69-Football.Tips | Built on GitHub Pages</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
-
+loadMatches();
+</script>
